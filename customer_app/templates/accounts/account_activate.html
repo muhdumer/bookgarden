@@ -1,0 +1,11 @@
+{% autoescape off %}
+
+Hi {{ user.name }},
+Please click on the link to confirm your registration,
+
+http://{{ domain }}{% url 'customer_app:activate_user' uid64=uid token=token %}
+If you think, it's not you, then just ignore this email.
+
+Regards,
+Team TheBookGarden
+{% endautoescape %}

@@ -1,0 +1,80 @@
+{% extends 'index2.html' %}
+{% load static %}
+
+{% block links %}
+    <!-- Title  -->
+    <title>The Book Garden | Update Address Book Form</title>
+{% endblock %}
+
+    
+{% block body_block %}
+        <div class="cart-table-area section-padding-100">
+            <div class="container-fluid">
+            {% for field in form %}
+                {% for error in field.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ error }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>  
+                {% endfor %}
+                {% endfor %}
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <div class="checkout_details_area mt-50 clearfix">
+
+                            <div class="cart-title">
+                                <h2>Update Address</h2>
+                            </div>
+
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ form.first_name }}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ form.last_name }}
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        {{ form.country }}
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        {{ form.city }}
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        {{ form.address }}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ form.zip_code }}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ form.phone_number }}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="custom-control custom-checkbox d-block mb-2">
+                                            {{ form.is_default }}
+                                            <label class="custom-control-label" for="{{ form.is_default.id_for_label }}">{{ form.is_default.label }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn amado-btn mt-5">
+                                    <button type='submit' class="btn amado-btn w-100">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Main Content Wrapper End ##### -->
+{% endblock %}
+{% block js %}
+<script>
+$(document).ready(function() {
+    $('#id_country').popover();
+});
+</script>
+{% endblock %}

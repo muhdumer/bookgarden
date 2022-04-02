@@ -1,0 +1,239 @@
+{% extends 'index.html' %}
+
+{% block links %}
+    <!-- Title  -->
+    <title>The Book Garden | Checkout</title>
+
+{% endblock %}
+
+
+    {% block body_block %}
+        <div class="cart-table-area section-padding-100">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <div class="checkout_details_area mt-50 clearfix">
+
+                            <div class="cart-title">
+                                <h2>Checkout</h2>
+                            </div>
+
+                            <form method="post" id='Checkout_out_form' onsubmit='changebtn()'>
+                            {% csrf_token %}
+                                <div class="cart-title mb-2">
+                                    <h6><b><i> Fill the following with your billing address </i></b></h6>
+                                </div>
+                                <div class="row">
+                                {% if user.is_authenticated %}
+                                    {% if not no_address %}
+                                    <div class="col-12 mt-4 mb-3">
+                                    <label> Saved Address's </label>
+                                        <select class="w-100" id="bill_saved_address">
+                                        {% for address in saved_address %}
+                                        {% if forloop.first %}
+                                        <option value="-1">Other Address</option>
+                                        <option value="{{ address.pk }}">{{ address }}</option>
+                                        {% else %}
+                                        <option value="{{ address.pk }}">{{ address }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    </div>
+                                    {% endif %}
+                                {% endif %}    
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="bill_first_name" name='first_name_bill' value="" placeholder="First Name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" name="last_name_bill" id="bill_last_name" value="" placeholder="Last Name" required>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <input type="email" class="form-control" id="bill_email" name='email_bill' placeholder="Email" value="">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <input type='text' id='bill_country' name='country_bill' class='form-control country' placeholder='Country' data-content='Delivery Only Available in Pakistan' readonly value='Pakistan' data-toggle='popover' data-trigger='focus' data-placement='top' data-container='body'  />
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <input type="text" class="form-control mb-3" id="bill_address" name='address_bill'  placeholder="Address" value="" required>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <input type="text" class="form-control" id="bill_city" name='city_bill' required placeholder="City" value="">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="bill_zipcode" name='zipcode_bill' placeholder="Zip Code" value="">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="number" class="form-control" id="bill_phone_number" name='phone_number_bill' required placeholder="Phone No" value="">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <textarea name="comment" class="form-control w-100" id="comment" cols="30" rows="10" placeholder="Leave a comment about your order"></textarea>
+                                    </div>
+                                
+                                    <div class="col-12">
+                                        <div class="custom-control custom-checkbox d-block">
+                                            <input id="customCheck3" type="checkbox" class="custom-control-input" name='ship_different'>
+                                            <label class="custom-control-label" for="customCheck3">Ship to a different address</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cart-title mt-5" id='shipping_title'>
+                                    <h6><b><i> Fill the following with your shipping address </i></b></h6>
+                                </div> 
+                                <div class="row" id='shipping_div' >
+                                    {% if user.is_authenticated %}
+                                    {% if not no_address %}
+                                    <div class="col-12 mt-4 mb-3">
+                                    <label> Saved Address's </label>
+                                        <select class="w-100" id="ship_address_saved" onchange='handleshipchange()'>
+                                        {% for address in saved_address %}
+                                        {% if forloop.first %}
+                                        <option value="-1">Other Address</option>
+                                        <option value="{{ address.pk }}">{{ address }}</option>
+                                        {% else %}
+                                        <option value="{{ address.pk }}">{{ address }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    </div>
+                                    {% endif %}
+                                {% endif %}
+                                   <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="ship_first_name" name='first_name_ship' value="" placeholder="First Name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" name="last_name_ship" id="ship_last_name" value="" placeholder="Last Name" required>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <input type="email" class="form-control" id="ship_email" name='email_ship' placeholder="Email" value="">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <input type='text' id='ship_country' name='country_ship' class='form-control country' placeholder='Country' data-content='Delivery Only Available in Pakistan' readonly value='Pakistan' data-toggle='popover' data-trigger='focus' data-placement='top' data-container='body'  />
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <input type="text" class="form-control mb-3" id="ship_address" name='address_ship'  placeholder="Address" value="" required>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <input type="text" class="form-control" id="ship_city" name='city_ship' required placeholder="City" value="">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="ship_zipcode" name='zipcode_ship' placeholder="Zip Code" value="">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="number" class="form-control" id="ship_phone_number" name='phone_number_ship' required placeholder="Phone No" value="">
+                                    </div>
+                            </div>
+                            <div class='row'>
+                            {% if not is_empty %}
+                            <div class="cart-btn mt-4 ml-3">
+                                <button  type='submit'  id='submit-btn-checkout' class="btn amado-btn w-100">Checkout</button>
+                            </div>
+                            {% else %}
+                            <div class="cart-btn mt-4 ml-3">
+                            <a href="#" id="checkout-btn-disabled" class="btn amado-btn w-100" title="Cart Empty" data-toggle="popover" data-trigger="hover" data-content="Cart is empty kindly fill it up..">Checkout</a>
+                            </div>
+                            {% endif %}
+                            </div>
+                            
+                            </form>
+                        </div>
+                    </div>
+                <div class="col-10 col-lg-4">
+                        <div class="cart-summary">
+                            <h5>Cart Total</h5>
+                            <ul class="summary-table">
+                                <li><span>subtotal:</span> <span>{{ subtotal }}</span></li>
+                                <li><span>delivery:</span> <span>Free</span></li>
+                                <li><span>Tax:</span> <span>{{ tax }}</span></li>
+                                <li><span>total:</span> <span>{{ total }}</span></li>
+                                <li><span>delivery method:</span> <span>COD</span></li>                                   
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- ##### Main Content Wrapper End ##### -->
+{% endblock %}
+
+{% block js %}
+
+{% load static %}
+<script>
+$(document).ready(function() {
+    $('.country').popover();
+    $('#checkout-btn-disabled').popover();   
+});
+</script>
+<script>
+    var shipping_div=null;
+    var shipping_title=null;
+    $(document).ready(function()
+    {
+        shipping_title=$('#shipping_title').html();
+        $('#shipping_title').html('');
+        shipping_div=$('#shipping_div').html();   
+        $('#shipping_div').html('');
+    });
+
+    $('#customCheck3').on('change',function(e){
+        if($(this).prop('checked'))
+        {
+            $('#shipping_title').html(shipping_title);
+            $('#shipping_div').html(shipping_div);
+            $('.country').popover();
+        }
+        else
+        {
+            $('#shipping_title').html('');
+            $('#shipping_div').html('');
+        }
+    });
+</script>
+<script src="{% static 'js/checkout.js' %}"></script>
+<script>
+
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+    function deleteCookie(name) { setCookie(name, '', -1); }
+    function setCookie(name, value, days) {
+    var d = new Date;
+    d.setTime(d.getTime() + 24*60*60*1000*days);
+    document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+}
+
+   $(document).ready(function(e){
+       order_done=getCookie('order_set_true');
+       if(order_done!=null||order_done!=undefined)
+       {
+            Swal.fire({
+            icon: 'success',
+            title: 'Order Placed',
+            text: "Congratulation your order was successfully placed you will receive a call from us very soon for order confirmation. ThankYou for chosing 'TheBookGarden'"
+            })
+            deleteCookie('order_set_true');
+       }
+   });
+
+   function changebtn()
+  {
+    $('#submit-btn-checkout').html('<span class="spinner-border spinner-border-sm mr-2 mb-1" role="status" aria-hidden="true"></span>Checking Out...').attr('disabled', true);
+  } 
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'index2.html' %}
+{% load static %}
+
+{% block links %}
+    <!-- Title  -->
+    <title>The Book Garden | Order Detail Page</title>
+{% endblock %}
+
+{% block css %}
+    table{
+            margin-top: 50px;
+      border: 0.1px solid black !important;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: centre;
+    
+    }
+    td,th{
+        padding: 20px;
+        border: 0.1px solid black !important;
+        font-family: 'Courier New', Courier, monospace;
+        text-align: center !important; 
+        padding: 5px !important;
+        
+    }
+    th{
+       color: blueviolet;
+       border: 0.1px solid black !important;
+       font-weight: bolder !important;
+       padding: 5px !important;
+       text-align: center !important;
+    }
+{% endblock %}
+    
+{% block body_block %}
+       
+     <div id="no-content" class="col-lg-8 col-md-6 col-sm-8 col-xs-10 col-xs-offset-1 orders-content">
+            <p style="font-family: 'Courier New', Courier, monospace; font-size:x-large; font-weight: bold !important; margin-top: 200px;">ORDER DETAILS</p>
+            <hr style="width: 80%; margin-left: 0; ">
+
+             <div style="margin-top: 30px;">
+              <p style="font-family: 'Courier New', Courier, monospace; font-size:x-large; font-weight: bold !important;">Billing ADDRESS</p>
+            <hr style="width: 80%; margin-left: 0; ">
+
+        <span style="font-family: 'Courier New', Courier, monospace; font-size: 18px; font-weight: bold;">{{ order.billing_first_name }} {{ order.billing_last_name }}</span>
+        <br>
+        <br>
+        <span style="font-family: 'Courier New', Courier, monospace; font-size: 12px;">{{ order.billing_address }}</span>
+        <br>
+        <span style="font-family: 'Courier New', Courier, monospace; font-size: 12px;">{{ order.billing_phone_number }}</span>
+        <br>
+        <span style="font-family: 'Courier New', Courier, monospace; font-size: 12px;">Pakistan</span>
+        <br>
+        <hr style="width: 80%; margin-left: 0; ">
+         </div>
+
+        <div style="margin-top: 50px;">
+        <span style="font-family: 'Courier New', Courier, monospace; font-size:x-large; font-weight: bold !important; ">ORDER {{ order.pk }}</span>
+            <hr style="width: 80%; margin-left: 0; ">
+
+            <table style="width:80%">
+             <tr>
+ <th>PRODUCT NAME</th>
+ <th>PRICE</th> 
+ <th>QUANTITY</th>
+ <th>TOTAL</th>
+</tr>
+{% for item in all_item_in_order %}
+<tr>
+ <td>{{ item.book_name }}</td>
+ <td>{{ item.price }}</td>
+ <td>{{ item.quantity  }}</td>
+ <td>{{ item.total }} PKR</td>
+</tr>
+{% endfor %}
+
+<tr>
+   <td>Subtotal</td>
+   <td></td>
+   <td></td>
+   <td>{{ subtotal }} PKR</td>
+</tr>
+
+<tr>
+   <td>Tax 13%</td>
+   <td></td>
+   <td></td>
+   <td>{{ tax }} PKR</td>
+</tr>
+
+<tr>
+ <td>Delivery Charges</td>
+ <td></td>
+ <td></td>
+ <td>free</td>
+</tr>
+
+<tr>
+ <td style="font-weight: bolder;">Total</td>
+ <td></td>
+ <td></td>
+ <td style="font-weight: bolder;">{{ gross_total }} PKR</td>
+</tr>
+
+</table>
+<hr style="width: 80%; margin-left: 0; ">
+</div>
+
+<div style="margin-top: 50px;">
+
+<p style="font-family: 'Courier New', Courier, monospace; font-size:x-large; font-weight: bold !important;">SHIPPING ADDRESS</p>
+<hr style="width: 80%; margin-left: 0; ">
+
+<span style="font-family: 'Courier New', Courier, monospace; font-size: 18px; font-weight: bold;">{{ order.shipping_first_name }} {{ order.shipping_last_name }} </span>
+<br>
+<br>
+<span style="font-family: 'Courier New', Courier, monospace; font-size: 12px;">{{ order.shipping_address }}</span>
+<br>
+<span style="font-family: 'Courier New', Courier, monospace; font-size: 12px;">{{ order.shipping_phone_number }}</span>
+<br>
+<span style="font-family: 'Courier New', Courier, monospace; font-size: 12px;">Pakistan</span>
+<br>
+<br>
+<br>
+ 
+
+
+
+       </div>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
