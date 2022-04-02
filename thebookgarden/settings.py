@@ -27,7 +27,7 @@ SECRET_KEY = 'wq$6$b@7ub6gy2zr6srz9%3jv0a38)ol3#^1qqy6x(05e_vh1-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','thebookgarden.herokuapp.com/']
 
 
 # Application definition
